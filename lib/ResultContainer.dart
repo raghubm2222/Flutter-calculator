@@ -9,7 +9,6 @@ class ResultContainer extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(20),
       width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.height * 0.15,
       child: Align(
         child: Text(
           value,

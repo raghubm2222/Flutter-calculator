@@ -1,7 +1,11 @@
-import 'package:calculator/ButtonsContainer.dart';
-import 'package:calculator/Constants.dart';
-import 'package:calculator/ResultContainer.dart';
+import 'dart:developer';
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
+
+import 'ButtonsContainer.dart';
+import 'Constants.dart';
+import 'ResultContainer.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -13,10 +17,30 @@ class _HomePageState extends State<HomePage> {
   void changetheValue(String val) {
     if (val == 'AC') {
       setValue('0');
-    } else if (numbersList.contains(int.parse(val))) {
-      setValue(currentValue == '0' ? val : currentValue + val);
+    } else if (val == '⌫') {
+      setValue(currentValue.substring(0, currentValue.length - 1));
+    } else if (val == '+/-') {
+      final isNeagtiveValue = currentValue.startsWith('-');
+      if (isNeagtiveValue) {
+        setValue(currentValue.substring(1));
+      } else {
+        setValue('-' + currentValue);
+      }
+    } else if (val == '√') {
+      setValue(math.sqrt(double.parse(currentValue)).toString());
+    } else if (val == '=') {
+      evaluate();
     } else if (operations.contains(val)) {
-      print('Operation');
+      if (currentValue == '0') return;
+      var lastValue = currentValue[currentValue.length - 1];
+      bool isEndsWithOperator = operations.contains(lastValue);
+      if (isEndsWithOperator) {
+        setValue(currentValue.substring(0, currentValue.length - 1) + val);
+      } else {
+        setValue(currentValue += val);
+      }
+    } else {
+      setValue(currentValue == '0' ? val : currentValue += val);
     }
   }
 
@@ -24,6 +48,10 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       currentValue = value;
     });
+  }
+
+  void evaluate() {
+    log(currentValue);
   }
 
   @override
@@ -43,8 +71,8 @@ class _HomePageState extends State<HomePage> {
       ),
       backgroundColor: Color(0xff22252D),
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
+          Spacer(),
           ResultContainer(value: currentValue),
           ButtonsContainer(onpressed: changetheValue)
         ],

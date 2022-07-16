@@ -11,17 +11,15 @@ class ButtonsContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 30, horizontal: 10),
-      height: MediaQuery.of(context).size.height * 0.7,
-      width: MediaQuery.of(context).size.width,
-      decoration: BoxDecoration(
-        color: Color(0xff282C35),
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(30),
-          topRight: Radius.circular(30),
-        ),
+      padding: const EdgeInsets.only(
+        top: 24.0,
+        left: 8.0,
+        right: 8.0,
+        bottom: 8.0,
       ),
+      color: Color(0xff282C35),
       child: GridView.builder(
+        shrinkWrap: true,
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 4, mainAxisSpacing: 15, crossAxisSpacing: 15),
         itemCount: buttons.length,
